@@ -75,9 +75,10 @@ static void _netif_list(struct netif *netif)
             printf(":");
         }
     }
-    printf(" Link: %s State: %s\n",
+    printf(" Link: %s State: %s %s\n",
         netif_is_link_up(netif) ? "up" : "down",
-        netif_is_up(netif) ? "up" : "down");
+        netif_is_up(netif) ? "up" : "down",
+        netif == netif_default ? "Default route" : "");
     printf("        Link type: %s\n",
         (dev->driver->get(dev, NETOPT_IS_WIRED, &i, sizeof(i)) > 0) ?
             "wired" : "wireless");
@@ -112,6 +113,8 @@ static void _usage(const char *cmd) {
     puts("      List all or a specific network interface");
     printf("usage: %s <iface> {up|down}\n", cmd);
     puts("      Enable or disable an interface (independent of link)");
+    printf("usage: %s <iface> default\n", cmd);
+    puts("      Set interface as default for routing");
 }
 
 static int _lwip_netif_config(int argc, char **argv)
@@ -153,6 +156,9 @@ static int _lwip_netif_config(int argc, char **argv)
                 return 0;
             } else if (strcmp(argv[2], "down") == 0) {
                 netifapi_netif_set_down(netif);
+                return 0;
+            } else if (strcmp(argv[2], "default") == 0) {
+                netifapi_netif_set_default(netif);
                 return 0;
             }
         }
