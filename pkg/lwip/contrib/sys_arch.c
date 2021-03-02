@@ -23,6 +23,7 @@
 #include "lwip/opt.h"
 #include "lwip/sys.h"
 
+#include "irq.h"
 #include "msg.h"
 #include "sema.h"
 #include "thread.h"
@@ -221,5 +222,23 @@ sys_thread_t sys_thread_new(const char *name, lwip_thread_fn thread, void *arg,
     thread_yield_higher();
     return res;
 }
+
+#ifdef DEVELHELP
+static kernel_pid_t lwip_tcpip_thread_id;
+void sys_mark_tcpip_thread(void) {
+    lwip_tcpip_thread_id = thread_getpid();
+}
+
+/* Check if lwIP threading expectation is met */
+bool sys_check_threading(void) {
+    /* Don't call from inside isr */
+    if (irq_is_in()) return false;
+    if (lwip_tcpip_thread_id != 0) {
+        /* only call from tcpip thread */
+        return lwip_tcpip_thread_id == thread_getpid();
+    }
+    return true;
+}
+#endif
 
 /** @} */
