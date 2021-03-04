@@ -299,7 +299,7 @@ void lwip_bootstrap(void)
      * not emit a `NETDEV_EVENT_LINK_UP` event. Remove, once it does
      * at an appropriate point.
      * (see https://github.com/RIOT-OS/RIOT/pull/14150) */
-    dhcp_start(netif);
+    netifapi_dhcp_start(netif);
 #endif
 }
 
