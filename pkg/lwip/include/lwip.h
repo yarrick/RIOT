@@ -31,6 +31,10 @@ extern "C" {
  */
 void lwip_bootstrap(void);
 
+struct netif;
+
+struct netif *lwip_add_ethernet(struct netif *netif, void *state);
+
 #ifdef __cplusplus
 }
 #endif
