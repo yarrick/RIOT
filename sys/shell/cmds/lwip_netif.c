@@ -167,4 +167,4 @@ static int _lwip_netif_config(int argc, char **argv)
     return 1;
 }
 
-SHELL_COMMAND(ifconfig, "List network interfaces", _lwip_netif_config);
+SHELL_COMMAND(ifconfig, "Configure network interfaces", _lwip_netif_config);
