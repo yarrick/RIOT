@@ -82,7 +82,7 @@ ifneq (,$(filter shell_cmds_default,$(USEMODULE)))
     USEMODULE += shell_cmd_heap
   endif
   ifneq (,$(filter lwip_netif,$(USEMODULE)))
-    USEMODULE += shell_cmd_lwip_netif
+    USEMODULE += shell_cmd_gnrc_netif
   endif
   ifneq (,$(filter mci,$(USEMODULE)))
     USEMODULE += shell_cmd_mci
@@ -182,9 +182,6 @@ ifneq (,$(filter shell_cmd_gnrc_ipv6_nib,$(USEMODULE)))
 endif
 ifneq (,$(filter shell_cmd_gnrc_ipv6_whitelist,$(USEMODULE)))
   USEMODULE += gnrc_ipv6_whitelist
-endif
-ifneq (,$(filter shell_cmd_gnrc_netif,$(USEMODULE)))
-  USEMODULE += gnrc_netif
 endif
 ifneq (,$(filter shell_cmd_gnrc_netif_lorawan,$(USEMODULE)))
   USEMODULE += gnrc_netif_lorawan
