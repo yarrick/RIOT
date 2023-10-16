@@ -101,6 +101,16 @@ typedef enum {
     NETOPT_HOP_LIMIT,
 
     /**
+     * @brief   (@ref ipv4_addr_t[]) get IPv4 addresses of an interface as array
+     *
+     * When getting the option you can pass an array of @ref ipv4_addr_t of any
+     * length greater than 0 to the getter. The possible returned addresses will
+     * be (in order): local address, netmask and gateway address. The array will
+     * be filled with as many of these three as fits.
+     */
+    NETOPT_IPV4_ADDR,
+
+    /**
      * @brief   (@ref eui64_t) get the IPv6 interface identifier of a network interface
      *
      * @see <a href="https://tools.ietf.org/html/rfc4291#section-2.5.1">

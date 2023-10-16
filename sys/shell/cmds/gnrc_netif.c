@@ -904,6 +904,23 @@ static void _netif_list(netif_t *iface)
            (netif_get_opt(iface, NETOPT_IS_WIRED, 0, &u16, sizeof(u16)) > 0) ?
            "wired" : "wireless");
     _newline(0U, ++line_thresh);
+#ifdef MODULE_IPV4
+    res = netif_get_opt(iface, NETOPT_IPV4_ADDR, 0, ipv6_addrs,
+                          sizeof(ipv6_addrs));
+    if (res >= 0) {
+        char addr_str[IPV4_ADDR_MAX_STR_LEN];
+        ipv4_addr_t *f = (ipv4_addr_t*) &ipv6_addrs;
+        ipv4_addr_to_str(addr_str, f, sizeof(addr_str));
+        printf("inet addr: %s", addr_str);
+        f++;
+        ipv4_addr_to_str(addr_str, f, sizeof(addr_str));
+        printf(" netmask: %s", addr_str);
+        f++;
+        ipv4_addr_to_str(addr_str, f, sizeof(addr_str));
+        printf(" gateway: %s", addr_str);
+        _newline(0U, _LINE_THRESHOLD);
+    }
+#endif
 #ifdef MODULE_IPV6
     res = netif_get_opt(iface, NETOPT_IPV6_ADDR, 0, ipv6_addrs,
                         sizeof(ipv6_addrs));

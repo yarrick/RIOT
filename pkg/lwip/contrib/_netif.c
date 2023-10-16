@@ -54,6 +54,30 @@ int netif_get_opt(netif_t *iface, netopt_t opt, uint16_t context,
             res = 0;
         }
         break;
+#ifdef MODULE_LWIP_IPV4
+        case NETOPT_IPV4_ADDR: {
+                assert(max_len >= sizeof(ipv4_addr_t));
+                ipv4_addr_t *tgt = value;
+
+                res = 0;
+                if ((res + sizeof(ipv4_addr_t)) <= max_len) {
+                    memcpy(tgt, netif_ip4_addr(netif), sizeof(ipv4_addr_t));
+                    res += sizeof(ipv4_addr_t);
+                    tgt++;
+                }
+                if ((res + sizeof(ipv4_addr_t)) <= max_len) {
+                    memcpy(tgt, netif_ip4_netmask(netif), sizeof(ipv4_addr_t));
+                    res += sizeof(ipv4_addr_t);
+                    tgt++;
+                }
+                if ((res + sizeof(ipv4_addr_t)) <= max_len) {
+                    memcpy(tgt, netif_ip4_gw(netif), sizeof(ipv4_addr_t));
+                    res += sizeof(ipv4_addr_t);
+                    tgt++;
+                }
+            }
+            break;
+#endif
 #ifdef MODULE_LWIP_IPV6
     case NETOPT_IPV6_ADDR: {
             assert(max_len >= sizeof(ipv6_addr_t));
